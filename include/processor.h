@@ -4,10 +4,13 @@
 class Processor
 {
 public:
-    float Utilization(); // TODO: See src/processor.cpp
+    Processor() : idle_(0), nonIdle_(0){};
+    float Utilization();
 
-    // TODO: Declare any necessary private members
 private:
+    // in user Hz
+    int idle_;
+    int nonIdle_;
 };
 
 #endif
