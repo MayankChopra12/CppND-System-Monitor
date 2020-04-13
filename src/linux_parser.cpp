@@ -327,7 +327,7 @@ string LinuxParser::User(int pid)
 // Read and return the uptime of a process in seconds
 long LinuxParser::UpTime(int pid)
 {
-  int uptime = 0;
+  unsigned long long uptime = 0;
   string line;
   string key;
   string value;
@@ -340,7 +340,7 @@ long LinuxParser::UpTime(int pid)
       linestream >> value;
     }
     // the value is expressed in clock ticks. Divided by sysconf(_SC_CLK_TCK) to get seconds
-    uptime = stoul(value) / sysconf(_SC_CLK_TCK);
+    uptime = UpTime() - stoull(value) / sysconf(_SC_CLK_TCK);
   }
   return uptime;
 }
