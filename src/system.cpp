@@ -17,11 +17,26 @@ using std::size_t;
 using std::string;
 using std::vector;
 
-// TODO: Return the system's CPU
 Processor &System::Cpu() { return cpu_; }
 
-// TODO: Return a container composed of the system's processes
-vector<Process> &System::Processes() { return processes_; }
+vector<Process> &System::Processes()
+{
+    processes_.clear();
+    vector<int> pids = LinuxParser::Pids();
+    for (const int &pid : pids)
+    {
+        string user = LinuxParser::User(pid);
+        string command = LinuxParser::Command(pid);
+        float cpu = LinuxParser::CpuUtilization(pid);
+        int ram = LinuxParser::Ram(pid);
+        int uptime = LinuxParser::UpTime(pid);
+
+        Process process{pid, user, command, cpu, ram, uptime};
+        processes_.push_back(process);
+    }
+    std::sort(processes_.begin(), processes_.end());
+    return processes_;
+}
 
 std::string System::Kernel() { return LinuxParser::Kernel(); }
 
