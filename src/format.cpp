@@ -2,7 +2,8 @@
 
 #include <string>
 
-using std::string, std::to_string;
+using std::string;
+using std::to_string;
 
 string addLeadingZero(int value)
 {
